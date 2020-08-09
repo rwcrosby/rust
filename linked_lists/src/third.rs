@@ -38,12 +38,30 @@ impl<T> List<T> {
 
     }
     
+    /// This and the following tail2 function should be equivalent
     pub fn tail(&self) -> List<T> {
 
         List { head: self.head.as_ref()
                          .and_then(|node| node.next.clone()) 
-            }
+        }
 
-    }    
+    }
+
+    /// This should be equipvalent to the tail function
+    pub fn tail2(&self) -> List<T> {
+
+        List { head: match self.head.as_ref() {
+                        Some(node) => node.next.clone(),
+                        None => None
+                    }
+        }
+
+    }
+   
+    pub fn head(&self) -> Option<&T> {
+
+        self.head.as_ref().map(|node| &node.elem)
+
+    }
 
 }

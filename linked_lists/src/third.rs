@@ -14,6 +14,11 @@ struct Node<T> {
     next: Link<T>,
 }
 
+/// Type for a non-desrtuctive iterator
+pub struct Iter<'a, T> {
+    next: Option<&'a Node<T>>,
+}
+
 impl<T> List<T> {
     //! Third implementation
 
@@ -64,4 +69,19 @@ impl<T> List<T> {
 
     }
 
+    /// Get a non-destructive iterator
+    pub fn iter(&self) -> Iter<T> {
+        Iter { next: self.head.as_ref().map(|node| &**node) }
+    }
+}
+
+impl<'a, T> Iterator for Iter<'a, T> {
+    type Item = &'a T;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.next.map(|node| {
+            self.next = node.next.as_ref().map(|node| &**node);
+            &node.elem
+        })
+    }
 }

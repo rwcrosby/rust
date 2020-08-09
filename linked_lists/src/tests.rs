@@ -116,7 +116,8 @@ mod test_2 {
         assert_eq!(iter.next(), None);
     }
 
-    #[test]    fn test_2e_iter() {
+    #[test]    
+    fn test_2e_iter() {
         let mut list = List::new();
         list.push(1); list.push(2); list.push(3);
 
@@ -202,7 +203,7 @@ mod test_3 {
     use crate::third::List;
 
     #[test]
-    fn basics() {
+    fn test_3a() {
         let list = List::new();
         assert_eq!(list.head(), None);
 
@@ -222,10 +223,25 @@ mod test_3 {
         let list = list.tail();
         assert_eq!(list.head(), None);
 
+        let list = list.append(1).append(2).append(3);
+        
+        let list = list.tail2();
+        assert_eq!(list.head(), Some(&2));
+
+        let list = list.tail2();
+        assert_eq!(list.head(), Some(&1));
+
+        let list = list.tail2();
+        assert_eq!(list.head(), None);
+
+        // Make sure empty tail works
+        let list = list.tail2();
+        assert_eq!(list.head(), None);
+
     }
 
     #[test]
-    fn iter() {
+    fn test_3b() {
         let list = List::new().append(1).append(2).append(3);
     
         let mut iter = list.iter();
